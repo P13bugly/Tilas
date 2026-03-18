@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ClazzMapper">
+    <insert id="insert">
+        insert into clazz(name, room, begin_date, end_date, master_id, subject, create_time, update_time)
+        values (#{name}, #{room}, #{beginDate}, #{endDate}, #{masterId}, #{subject}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="update">
+        update clazz
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="room != null and room != ''">room = #{room},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="masterId != null">master_id = #{masterId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="integer">
+        delete
+        from clazz
+        where id = #{id}
+    </delete>
+
+
+    <select id="list" resultType="com.example.tilas.pojo.Clazz" parameterType="com.example.tilas.pojo.ClazzQueryParam">
+        select cla.id,
+        cla.name,
+        cla.room,
+        cla.begin_date,
+        cla.end_date,
+        cla.master_id,
+        e.name as masterName,
+        case
+        when curdate() > cla.end_date then '已结课'
+        when curdate() &lt; cla.begin_date then '未开班'
+        else '在读中'
+        end as status,
+        cla.subject,
+        cla.create_time,
+        cla.update_time
+        from clazz cla
+        left join emp e on cla.master_id = e.id
+        <where>
+            <if test="name != null and name != ''">
+                cla.name like concat('%',#{name},'%')
+            </if>
+            <if test="begin != null and end != null">
+                and cla.end_date between #{begin} and #{end}
+            </if>
+        </where>
+    </select>
+
+    <select id="getInfo" resultType="com.example.tilas.pojo.Clazz">
+        select id, name, room, begin_date, end_date, master_id, subject, create_time, update_time from clazz where id=#{id}
+    </select>
+
+    <select id="getClaInfo" resultType="com.example.tilas.pojo.Clazz">
+        select  id, name, room, begin_date, end_date, master_id, subject, create_time, update_time from clazz
+    </select>
+
+</mapper>
+
