@@ -52,7 +52,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 
     }
-
+    //视图渲染完毕后执行，最后执行
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         CurrentHolder.removeCurrentLocal();

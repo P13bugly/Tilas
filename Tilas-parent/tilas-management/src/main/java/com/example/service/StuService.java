@@ -44,5 +44,11 @@ public interface StuService {
      */
     void deleteByIds(List<Integer> ids);
 
+    /**
+     * 违纪处理
+     *
+     * @param id    ID
+     * @param score 得分
+     */
     void disciplinaryAction(Integer id, Integer score);
 }

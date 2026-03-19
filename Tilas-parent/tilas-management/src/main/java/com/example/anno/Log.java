@@ -7,6 +7,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+/*
+ *日志统计注解
+ */
 public @interface Log {
 
 }

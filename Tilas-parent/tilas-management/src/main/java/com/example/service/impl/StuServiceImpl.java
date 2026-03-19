@@ -1,10 +1,10 @@
 package com.example.service.impl;
 
 import com.example.mapper.StuMapper;
+import com.example.service.StuService;
 import com.example.tilas.pojo.PageResult;
 import com.example.tilas.pojo.StuQueryParam;
 import com.example.tilas.pojo.Student;
-import com.example.service.StuService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,13 @@ import java.util.List;
 public class StuServiceImpl implements StuService {
     @Autowired
     private StuMapper stuMapper;
+
     @Override
     public PageResult<Student> list(StuQueryParam stuQueryParam) {
-        //1.控制分页参数
-        PageHelper.startPage(stuQueryParam.getPage(),stuQueryParam.getPageSize());
-        Page<Student> studentPage =(Page<Student>) stuMapper.list(stuQueryParam);
-        return new PageResult<Student>(studentPage.getTotal(),studentPage.getResult());
+        //控制分页参数
+        PageHelper.startPage(stuQueryParam.getPage(), stuQueryParam.getPageSize());
+        Page<Student> studentPage = (Page<Student>) stuMapper.list(stuQueryParam);
+        return new PageResult<Student>(studentPage.getTotal(), studentPage.getResult());
     }
 
     @Override
@@ -34,7 +35,7 @@ public class StuServiceImpl implements StuService {
 
     @Override
     public Student SearchById(Integer id) {
-         return stuMapper.SearchById(id);
+        return stuMapper.SearchById(id);
     }
 
     @Override
@@ -49,6 +50,6 @@ public class StuServiceImpl implements StuService {
 
     @Override
     public void disciplinaryAction(Integer id, Integer score) {
-        stuMapper.disciplinaryAction(id,score);
+        stuMapper.disciplinaryAction(id, score);
     }
 }

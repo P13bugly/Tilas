@@ -37,7 +37,7 @@ public class ClazzController {
     @PutMapping
     @Log
     public Result update(@RequestBody Clazz clazz) {
-        log.info("下拉选择班主任列表");
+        log.info("下拉选择班主任列表,回显");
         clazzService.update(clazz);
         return Result.success();
     }
