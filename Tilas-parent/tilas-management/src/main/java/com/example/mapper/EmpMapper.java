@@ -4,7 +4,6 @@ import com.example.tilas.pojo.Emp;
 import com.example.tilas.pojo.EmpQueryParam;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 import java.util.Map;
@@ -32,11 +31,10 @@ public interface EmpMapper {
 
     List<Emp> list(EmpQueryParam empQueryParam);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-        //获取到生成的主键
+    //获取到生成的主键
     void insert(Emp emp);
 
-    void deleteByIds(List<Integer> Ids);
+    void deleteByIds(List<Integer> ids);
 
     Emp getInfo(Integer id);
 

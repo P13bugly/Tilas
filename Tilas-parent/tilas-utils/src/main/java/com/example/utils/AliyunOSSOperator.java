@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -52,6 +53,40 @@ public class AliyunOSSOperator {
         }
 
         return endpoint.split("//")[0] + "//" + bucketName + "." + endpoint.split("//")[1] + "/" + objectName;
+    }
+
+    public void delete(String fileUrl) throws Exception {
+        if (fileUrl == null || fileUrl.isBlank()) {
+            return;
+        }
+
+        String endpoint = aliyunOSSProperties.getEndpoint();
+        String bucketName = aliyunOSSProperties.getBucketName();
+        String region = aliyunOSSProperties.getRegion();
+
+        EnvironmentVariableCredentialsProvider credentialsProvider =
+                CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        OSS ossClient = OSSClientBuilder.create()
+                .endpoint(endpoint)
+                .credentialsProvider(credentialsProvider)
+                .clientConfiguration(clientBuilderConfiguration)
+                .region(region)
+                .build();
+
+        try {
+            String objectName = URI.create(fileUrl).getPath();
+            if (objectName.startsWith("/")) {
+                objectName = objectName.substring(1);
+            }
+            if (!objectName.isBlank()) {
+                ossClient.deleteObject(bucketName, objectName);
+            }
+        } finally {
+            ossClient.shutdown();
+        }
     }
 
 }

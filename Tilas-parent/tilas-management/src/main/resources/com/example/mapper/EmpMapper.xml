@@ -39,7 +39,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.example.tilas.pojo.Emp">
+    <insert id="insert" parameterType="com.example.tilas.pojo.Emp" useGeneratedKeys="true" keyProperty="id">
         insert into emp (username, password, name, gender, phone, job, salary, image, entry_date, dept_id, create_time,
                          update_time)
         values (#{username}, #{password}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{image}, #{entryDate},
